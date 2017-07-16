@@ -31,6 +31,7 @@ gem 'devise'
 gem 'cancancan', '~> 2.0'
 
 gem 'twitter-bootstrap-rails'
+gem 'devise-bootstrap-views'
 
 gem 'kaminari'
 

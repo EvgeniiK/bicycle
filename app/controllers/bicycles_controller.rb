@@ -1,9 +1,10 @@
 class BicyclesController < ApplicationController
   before_action :set_bicycle, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: :index
 
   # GET /bicycles
   def index
-    @bicycles = Bicycle.all
+    @bicycles = current_user ? Bicycle.unused_bicycles(current_user.id) : Bicycle.all
   end
 
   # GET /bicycles/1
@@ -53,6 +54,7 @@ class BicyclesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def bicycle_params
-      params.fetch(:bicycle, {})
+      params.require(:bicycle).permit(:name, :description, :avatar,
+                                      :category).merge(user_id: current_user.id)
     end
 end
